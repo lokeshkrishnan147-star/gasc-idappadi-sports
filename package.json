@@ -1,0 +1,73 @@
+{
+  "name": "gasc-idappadi-sports-management",
+  "version": "1.0.0",
+  "description": "Smart Sports Management System for Government Arts and Science College, Idappadi",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "seed": "node server/utils/seedSupabase.js",
+    "desktop:admin": "electron electron/main.js",
+    "build:admin-exe": "node electron/pack.js",
+    "build:admin-builder": "electron-builder --win"
+  },
+  "keywords": [
+    "sports",
+    "college",
+    "gasc-idappadi",
+    "management",
+    "glassmorphism",
+    "express",
+    "supabase",
+    "postgresql",
+    "electron",
+    "windows-exe"
+  ],
+  "author": "GASC Idappadi Sports Department",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.115.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^10.0.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "electron": "^29.4.6",
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2"
+  },
+  "build": {
+    "appId": "com.gasc.idappadi.sports.admin",
+    "productName": "GASC Sports Admin",
+    "copyright": "Copyright © 2026 Government Arts and Science College, Idappadi",
+    "directories": {
+      "output": "dist/admin-exe"
+    },
+    "extraMetadata": {
+      "main": "electron/main.js"
+    },
+    "files": [
+      "electron/**/*",
+      "client/public/**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "client/public/images/college-logo.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "GASC Sports Admin"
+    }
+  }
+}

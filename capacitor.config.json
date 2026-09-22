@@ -1,0 +1,15 @@
+{
+  "appId": "com.gasc.idappadi.sports.student",
+  "appName": "GASC Sports Student",
+  "webDir": "client/public",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": true
+  }
+}
