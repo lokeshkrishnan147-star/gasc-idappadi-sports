@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     // When deploying your Node.js backend to Render, Railway, or VPS,
     // put your production domain URL below.
     // Example: "https://gasc-sports-api.onrender.com"
-    public static final String PRODUCTION_BACKEND_URL = "https://email-usgs-appearance-scanner.trycloudflare.com"; 
+    public static final String PRODUCTION_BACKEND_URL = "https://gasc-idappadi-sports.onrender.com";
 
     private static final String LOCAL_ASSET_ENTRY = "file:///android_asset/student-login.html";
     private static final int FILE_CHOOSER_REQUEST_CODE = 1001;
@@ -164,13 +164,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadStudentEntry() {
-        if (PRODUCTION_BACKEND_URL != null && !PRODUCTION_BACKEND_URL.trim().isEmpty()) {
-            String prodUrl = PRODUCTION_BACKEND_URL.replaceAll("/+$", "") + "/student/login";
-            webView.loadUrl(prodUrl);
-        } else {
-            // Load bundled asset or local server
-            webView.loadUrl(LOCAL_ASSET_ENTRY);
-        }
+        // Always load from local bundled assets - instant, no network lag!
+        // API calls inside JS will go to PRODUCTION_BACKEND_URL automatically
+        webView.loadUrl(LOCAL_ASSET_ENTRY);
     }
 
     @Override

@@ -70,16 +70,23 @@ app.get(['/student', '/student/'], (req, res) => {
 app.get([
   '/student/profile',
   '/student/my-sports',
+  '/student/sports',
   '/student/competitions',
   '/student/applications',
+  '/student/team',
   '/student/practice',
   '/student/attendance',
   '/student/equipment',
   '/student/achievements',
   '/student/certificates',
   '/student/news',
-  '/student/notifications'
+  '/student/notifications',
+  '/student/external-competitions'
 ], (req, res) => {
+  res.sendFile(path.join(clientPublic, 'student-dashboard.html'));
+});
+// Zero-404 fallback: Any unrecognized student subroute safely opens the dashboard
+app.get('/student/*', (req, res) => {
   res.sendFile(path.join(clientPublic, 'student-dashboard.html'));
 });
 

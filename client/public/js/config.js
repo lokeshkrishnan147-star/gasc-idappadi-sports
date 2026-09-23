@@ -15,7 +15,7 @@
   // When deploying your Node.js backend to Render, Railway, or VPS,
   // simply put your online production URL here (e.g. 'https://gasc-sports-api.onrender.com').
   // When running locally, leave it as '' or 'http://localhost:5000'.
-  const PRODUCTION_BACKEND_URL = 'https://email-usgs-appearance-scanner.trycloudflare.com';
+  const PRODUCTION_BACKEND_URL = 'https://gasc-idappadi-sports.onrender.com';
 
   // Determine current origin & environment
   const isHttpOrHttps = window.location.protocol === 'http:' || window.location.protocol === 'https:';
@@ -29,18 +29,18 @@
   // Resolve active backend base URL
   let resolvedBackendOrigin = '';
 
-  if (PRODUCTION_BACKEND_URL && PRODUCTION_BACKEND_URL.trim() !== '') {
-    // If a production backend URL is explicitly configured, use it
-    resolvedBackendOrigin = PRODUCTION_BACKEND_URL.replace(/\/+$/, '');
-  } else if (isLocalhost) {
-    // If running on a local development server, use the current host origin
+  if (isLocalhost) {
+    // If running on local development server, use current host
     resolvedBackendOrigin = `${window.location.protocol}//${window.location.hostname}:${window.location.port || 5000}`;
   } else if (isHttpOrHttps) {
-    // If hosted online, use current domain origin
+    // If running on a public website domain (e.g. Render or custom college domain), use current origin
     resolvedBackendOrigin = window.location.origin;
+  } else if (PRODUCTION_BACKEND_URL && PRODUCTION_BACKEND_URL.trim() !== '') {
+    // If packaged as an app (Electron or APK), use the configured production backend URL
+    resolvedBackendOrigin = PRODUCTION_BACKEND_URL.replace(/\/+$/, '');
   } else {
-    // Packaged App fallback (Android APK / Electron) when no backend URL is set
-    resolvedBackendOrigin = 'http://10.102.54.21:5000';
+    // Fallback URL
+    resolvedBackendOrigin = 'https://gasc-idappadi-sports.onrender.com';
   }
 
   // Define global config object

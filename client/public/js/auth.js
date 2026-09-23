@@ -30,7 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
           } else {
             const urlParams = new URLSearchParams(window.location.search);
             const returnUrl = urlParams.get('returnUrl');
-            window.location.href = returnUrl ? decodeURIComponent(returnUrl) : 'student-dashboard.html';
+            const targetDash = (window.location.protocol === 'file:' || (window.GASC_CONFIG && window.GASC_CONFIG.IS_PACKAGED_APP && !window.location.protocol.startsWith('http')))
+              ? 'student-dashboard.html'
+              : '/student/dashboard';
+            window.location.href = returnUrl ? decodeURIComponent(returnUrl) : targetDash;
           }
         }, 800);
       } catch (err) {
@@ -121,7 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setCurrentUser(res.user, res.token);
 
         setTimeout(() => {
-          window.location.href = 'student-dashboard.html';
+          const targetDash = (window.location.protocol === 'file:' || (window.GASC_CONFIG && window.GASC_CONFIG.IS_PACKAGED_APP && !window.location.protocol.startsWith('http')))
+            ? 'student-dashboard.html'
+            : '/student/dashboard';
+          window.location.href = targetDash;
         }, 1200);
       } catch (err) {
         showToast(err.message, 'error', 'Registration Failed');

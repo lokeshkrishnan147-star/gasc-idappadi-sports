@@ -122,8 +122,13 @@ function logout() {
   localStorage.removeItem('gasc_token');
   localStorage.removeItem('gasc_user');
   showToast('Logged out successfully. See you again!', 'info', 'Logout');
+  const isPackaged = window.location.protocol === 'file:' || window.location.protocol === 'capacitor:';
   setTimeout(() => {
-    window.location.href = isAdmin ? 'admin-login.html' : 'student-login.html';
+    if (isAdmin) {
+      window.location.href = isPackaged ? 'admin-login.html' : '/admin/login';
+    } else {
+      window.location.href = isPackaged ? 'student-login.html' : '/student/login';
+    }
   }, 500);
 }
 

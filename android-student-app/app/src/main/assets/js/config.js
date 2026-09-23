@@ -15,7 +15,7 @@
   // When deploying your Node.js backend to Render, Railway, or VPS,
   // simply put your online production URL here (e.g. 'https://gasc-sports-api.onrender.com').
   // When running locally, leave it as '' or 'http://localhost:5000'.
-  const PRODUCTION_BACKEND_URL = 'https://email-usgs-appearance-scanner.trycloudflare.com';
+  const PRODUCTION_BACKEND_URL = 'https://gasc-idappadi-sports.onrender.com';
 
   // Determine current origin & environment
   const isHttpOrHttps = window.location.protocol === 'http:' || window.location.protocol === 'https:';

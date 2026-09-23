@@ -71,6 +71,12 @@
         <a class="sidebar-nav-item student-nav-item" data-view="achievements">
           <i class="bi bi-award"></i> <span>Achievements</span>
         </a>
+        <a class="sidebar-nav-item student-nav-item" data-view="external-competitions">
+          <i class="bi bi-globe2"></i> <span>External Tournaments</span>
+        </a>
+        <a class="sidebar-nav-item student-nav-item" data-view="news">
+          <i class="bi bi-newspaper"></i> <span>Sports News</span>
+        </a>
         <a class="sidebar-nav-item student-nav-item d-flex justify-content-between align-items-center" data-view="notifications">
           <div class="d-flex align-items-center gap-2">
             <i class="bi bi-bell"></i> <span>Notifications</span>
@@ -93,8 +99,8 @@
     <div class="portal-content">
       <!-- Topbar -->
       <header class="portal-topbar">
-        <button class="btn btn-glass d-lg-none" onclick="document.querySelector('.portal-sidebar').classList.toggle('show')">
-          <i class="bi bi-list fs-5"></i>
+        <button class="btn btn-glass d-lg-none" onclick="toggleMoreDrawer(this)" aria-label="Open Navigation Menu">
+          <i class="bi bi-grid-3x3-gap-fill text-primary fs-5"></i>
         </button>
         <div class="d-none d-sm-block">
           <span class="badge bg-primary bg-opacity-10 text-primary">Government Arts and Science College, Idappadi</span>
@@ -427,6 +433,60 @@
             <!-- Loaded via student.js -->
           </div>
         </section>
+
+        <!-- VIEW 12: EXTERNAL COMPETITIONS -->
+        <section id="view-external-competitions" class="student-view-section d-none">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+              <h4 class="fw-bold text-dark mb-0">
+                <i class="bi bi-globe2 text-primary me-2"></i>External Sports Meets & Open Tournaments
+              </h4>
+              <small class="text-secondary">Open competitions across Tamil Nadu, Inter-Collegiate, State & National Meets with direct online registration</small>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+              <input type="text" id="student-ec-search" class="form-control form-control-sm form-control-glass" placeholder="Search tournaments..." style="max-width: 220px;" oninput="loadStudentExternalCompetitions()">
+              <select id="student-ec-filter-level" class="form-select form-select-sm form-select-glass" style="max-width: 150px;" onchange="loadStudentExternalCompetitions()">
+                <option value="All">All Levels</option>
+                <option value="University">University</option>
+                <option value="District">District</option>
+                <option value="State">State</option>
+                <option value="National">National</option>
+                <option value="Open">Open</option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-4" id="student-ec-cards">
+            <!-- Loaded via student.js -->
+          </div>
+        </section>
+
+        <!-- VIEW 13: SPORTS NEWS & ANNOUNCEMENTS -->
+        <section id="view-news" class="student-view-section d-none">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+              <h4 class="fw-bold text-dark mb-0">
+                <i class="bi bi-newspaper text-primary me-2"></i>Sports News & Department Circulars
+              </h4>
+              <small class="text-secondary">Latest athletic announcements, selection trials, camp notices, and tournament reports</small>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+              <input type="text" id="student-sn-search" class="form-control form-control-sm form-control-glass" placeholder="Search news..." style="max-width: 220px;" oninput="loadStudentSportsNews()">
+              <select id="student-sn-filter-category" class="form-select form-select-sm form-select-glass" style="max-width: 180px;" onchange="loadStudentSportsNews()">
+                <option value="All">All Categories</option>
+                <option value="Tournament">Tournament</option>
+                <option value="Competition">Competition</option>
+                <option value="Selection Trial">Selection Trial</option>
+                <option value="Sports Announcement">Announcement</option>
+                <option value="Achievement">Achievement</option>
+                <option value="Training">Training</option>
+                <option value="Team News">Team News</option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-4" id="student-sn-cards">
+            <!-- Loaded via student.js -->
+          </div>
+        </section>
       </main>
     </div>
   </div>
@@ -502,9 +562,18 @@
     <button class="mob-drawer-item" data-view="applications" onclick="mobileNavDrawer('applications')">
       <i class="bi bi-file-earmark-check"></i>My Applies
     </button>
+    <button class="mob-drawer-item" data-view="external-competitions" onclick="mobileNavDrawer('external-competitions')">
+      <i class="bi bi-globe2"></i>External
+    </button>
+    <button class="mob-drawer-item" data-view="news" onclick="mobileNavDrawer('news')">
+      <i class="bi bi-newspaper"></i>News
+    </button>
     <button class="mob-drawer-item" data-view="notifications" onclick="mobileNavDrawer('notifications')">
       <i class="bi bi-bell"></i>Alerts
     </button>
+    <a href="/index.html" class="mob-drawer-item text-decoration-none">
+      <i class="bi bi-house-door"></i>Public Home
+    </a>
     <button class="mob-drawer-item" onclick="logout(); closeMoreDrawer();" style="color:#ff5252;">
       <i class="bi bi-box-arrow-right" style="color:#ff5252;"></i>Sign Out
     </button>

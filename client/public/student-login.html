@@ -123,7 +123,7 @@
       <!-- Registration link for new student athletes -->
       <div class="mt-4 pt-3 border-top small text-secondary">
         New student athlete at GASC Idappadi? <br>
-        <a href="student-register.html" class="fw-bold text-success text-decoration-none mt-1 d-inline-block">
+        <a href="/student/register" id="link-student-register" class="fw-bold text-success text-decoration-none mt-1 d-inline-block">
           <i class="bi bi-pencil-square me-1"></i> Register Student Account
         </a>
       </div>
@@ -179,6 +179,9 @@
             localStorage.removeItem('gasc_user');
           }
         } catch(e) {}
+      if (window.location.protocol === 'file:') {
+        const regLink = document.getElementById('link-student-register');
+        if (regLink) regLink.href = 'student-register.html';
       }
     })();
 

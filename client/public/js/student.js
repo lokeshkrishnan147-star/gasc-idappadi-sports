@@ -12,7 +12,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!token || !currentStudentUser || currentStudentUser.role !== 'student') {
     showToast('Please log in as a student to access the player portal.', 'warning', 'Access Restricted');
     setTimeout(() => {
-      window.location.href = 'student-login.html';
+      const loginUrl = (window.location.protocol === 'file:' || (window.GASC_CONFIG && window.GASC_CONFIG.IS_PACKAGED_APP && !window.location.protocol.startsWith('http')))
+        ? 'student-login.html'
+        : '/student/login';
+      window.location.href = loginUrl;
     }, 500);
     return;
   }
@@ -29,8 +32,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initialize navigation
   initStudentTabs();
 
-  // Load Initial Dashboard
-  loadStudentDashboard();
+  // Load Initial View from path (or default to dashboard)
+  const path = window.location.pathname.replace(/^\/student\/?/, '') || 'dashboard';
+  const validViews = ['dashboard', 'profile', 'sports', 'competitions', 'applications', 'team', 'equipment', 'achievements', 'notifications', 'external-competitions', 'news'];
+  const initialView = validViews.includes(path) ? path : 'dashboard';
+  switchStudentView(initialView, false);
+});
+
+// Browser Back/Forward navigation listener
+window.addEventListener('popstate', (e) => {
+  const path = window.location.pathname.replace(/^\/student\/?/, '') || 'dashboard';
+  const validViews = ['dashboard', 'profile', 'sports', 'competitions', 'applications', 'team', 'equipment', 'achievements', 'notifications', 'external-competitions', 'news'];
+  const viewId = (e.state && e.state.viewId) || (validViews.includes(path) ? path : 'dashboard');
+  switchStudentView(viewId, false);
 });
 
 // Tab Switcher
@@ -45,11 +59,21 @@ function initStudentTabs() {
   });
 }
 
-function switchStudentView(viewId) {
+function switchStudentView(viewId, updateHistory = true) {
   // Update sidebar active class
   document.querySelectorAll('.student-nav-item').forEach(el => el.classList.remove('active'));
   const activeBtn = document.querySelector(`.student-nav-item[data-view="${viewId}"]`);
   if (activeBtn) activeBtn.classList.add('active');
+
+  // Update mobile bottom nav active class
+  document.querySelectorAll('.mob-nav-item').forEach(el => el.classList.remove('active'));
+  const activeMobBtn = document.querySelector(`.mob-nav-item[data-view="${viewId}"]`);
+  if (activeMobBtn) activeMobBtn.classList.add('active');
+
+  // Update mobile drawer active class
+  document.querySelectorAll('.mob-drawer-item').forEach(el => el.classList.remove('active'));
+  const activeDrawerBtn = document.querySelector(`.mob-drawer-item[data-view="${viewId}"]`);
+  if (activeDrawerBtn) activeDrawerBtn.classList.add('active');
 
   // Hide all views, show target view
   document.querySelectorAll('.student-view-section').forEach(sec => sec.classList.add('d-none'));
@@ -62,6 +86,14 @@ function switchStudentView(viewId) {
     sidebar.classList.remove('show');
   }
 
+  // Update browser URL on website without page refresh (deep linking support)
+  if (updateHistory && window.location.protocol.startsWith('http') && window.history && window.history.pushState) {
+    const newPath = viewId === 'dashboard' ? '/student/dashboard' : `/student/${viewId}`;
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({ viewId }, '', newPath);
+    }
+  }
+
   // Trigger data loader for view
   if (viewId === 'dashboard') loadStudentDashboard();
   else if (viewId === 'profile') loadStudentProfile();
@@ -72,6 +104,8 @@ function switchStudentView(viewId) {
   else if (viewId === 'equipment') loadStudentEquipment();
   else if (viewId === 'achievements') loadStudentAchievements();
   else if (viewId === 'notifications') loadStudentNotifications();
+  else if (viewId === 'external-competitions') loadStudentExternalCompetitions();
+  else if (viewId === 'news') loadStudentSportsNews();
 }
 
 // 1. Dashboard

@@ -263,7 +263,7 @@
       </form>
 
       <div class="mt-4 pt-3 border-top text-center small text-secondary">
-        Already registered as a student player? <a href="/student/login" class="fw-bold text-primary text-decoration-none">Sign in here</a>
+        Already registered as a student player? <a href="/student/login" id="link-student-login" class="fw-bold text-primary text-decoration-none">Sign in here</a>
       </div>
 
       <div class="mt-2 text-center small">
@@ -278,5 +278,11 @@
   <script src="/js/config.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script>
+    if (window.location.protocol === 'file:') {
+      const loginLink = document.getElementById('link-student-login');
+      if (loginLink) loginLink.href = 'student-login.html';
+    }
+  </script>
 </body>
 </html>
