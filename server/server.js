@@ -35,11 +35,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Disable HTTP caching globally so browser changes appear instantly
+// HTTP caching strategy: API responses are fresh, static assets are efficiently cached
 app.use((req, res, next) => {
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
+  if (req.path.startsWith('/api/')) {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    res.setHeader('Pragma', 'no-cache');
+  } else if (req.path.match(/\.(png|jpg|jpeg|gif|svg|ico|webp|woff2?|ttf|eot)$/i)) {
+    // Media and fonts cached for 1 day
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+  } else {
+    // HTML, CSS, JS: always revalidate without blocking
+    res.setHeader('Cache-Control', 'no-cache, must-revalidate');
+  }
   next();
 });
 

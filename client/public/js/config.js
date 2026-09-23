@@ -86,14 +86,16 @@
     }
   };
 
-  // Check if an override URL was saved in localStorage for testing
-  try {
-    const savedUrl = localStorage.getItem('gasc_production_api_url');
-    if (savedUrl && savedUrl.trim() !== '') {
-      window.GASC_CONFIG.BACKEND_ORIGIN = savedUrl.replace(/\/+$/, '');
-      window.GASC_CONFIG.API_BASE_URL = `${window.GASC_CONFIG.BACKEND_ORIGIN}/api`;
+  // Check if an override URL was saved in localStorage for testing (only in packaged offline apps)
+  if (isPackagedApp) {
+    try {
+      const savedUrl = localStorage.getItem('gasc_production_api_url');
+      if (savedUrl && savedUrl.trim() !== '') {
+        window.GASC_CONFIG.BACKEND_ORIGIN = savedUrl.replace(/\/+$/, '');
+        window.GASC_CONFIG.API_BASE_URL = `${window.GASC_CONFIG.BACKEND_ORIGIN}/api`;
+      }
+    } catch (e) {
+      // Ignore localStorage access restriction if any
     }
-  } catch (e) {
-    // Ignore localStorage access restriction if any
   }
 })();
